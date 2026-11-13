@@ -17,6 +17,7 @@
 \usepackage{setspace}
 \usepackage{fancyhdr}
 \usepackage{titlesec}
+\usepackage{lastpage}
 
 \setCJKmainfont[AutoFakeBold=2]{Microsoft JhengHei}
 \setCJKsansfont[AutoFakeBold=2]{Microsoft JhengHei}
@@ -62,13 +63,50 @@
 \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 
-\title{LINE Messaging API 註冊申請與應用實作}
+\title{LINE Messaging API\textbackslash{}n註冊申請與應用實作}
 \author{作者姓名}
 \date{\today}
 
-\begin{document}
-\maketitle
+\titleformat{\chapter}[display]
+  {\normalfont\Huge\bfseries\color{lineblue}}
+  {\chaptertitlename\ \thechapter}
+  {18pt}
+  {\Huge}
 
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{lineblue}}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{LINE Messaging API}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\Huge\bfseries\color{lineblue} LINE Messaging API}\par
+    \vspace{1.2cm}
+    {\LARGE 註冊申請與應用實作}\par
+    \vspace{2cm}
+    {\large 技術報告 / 專題文件}\par
+    \vspace{2cm}
+    {\large 作者：作者姓名}\par
+    \vspace{0.5cm}
+    {\large 日期：\today}\par
+    \vfill
+    {\normalsize 依據 LINE Developers 平台與 API 實務流程整理}\par
+\end{titlepage}
+
+\pagenumbering{roman}
 \begin{abstract}
 本文件整理 LINE Messaging API 的註冊、設定與實務應用流程，內容涵蓋 LINE Developers 帳號建立、Channel 設定、Channel Secret 及 Access Token 的取得方式、Webhook 設定與測試方法，以及使用 Python 範例程式接收與回覆訊息的實作流程。透過本文件，讀者可快速建立對 LINE Messaging API 的基本理解，並具備在專案中接入 LINE 訊息服務的基礎能力。
 \end{abstract}
