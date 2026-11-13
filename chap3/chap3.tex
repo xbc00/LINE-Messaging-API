@@ -57,8 +57,31 @@ LINE API 的安全設定不只是把設定填好而已，還需要遵守一套�
 
 \begin{figure}[H]
     \centering
-    \fbox{\rule{0pt}{2.5cm}\rule{12cm}{0pt}}
+    \begin{tikzpicture}[
+        node distance=2.1cm and 2.4cm,
+        box/.style={draw, rounded corners, minimum width=2.5cm, minimum height=1.1cm, align=center, fill=blue!5},
+        line/.style={-Latex, thick}
+    ]
+        \node[box] (provider) {建立 Provider};
+        \node[box, right=of provider] (channel) {建立 Channel};
+        \node[box, right=of channel] (secret) {取得 Secret};
+        \node[box, below=of secret] (token) {取得 Access Token};
+        \node[box, left=of token] (webhook) {設定 Webhook};
+        \node[box, left=of webhook] (test) {測試事件};
+        \node[box, left=of test] (reply) {回覆訊息};
+
+        \draw[line] (provider) -- (channel);
+        \draw[line] (channel) -- (secret);
+        \draw[line] (secret) -- (token);
+        \draw[line] (token) -- (webhook);
+        \draw[line] (webhook) -- (test);
+        \draw[line] (test) -- (reply);
+    \end{tikzpicture}
     \caption{LINE Messaging API 設定流程總覽}
 \end{figure}
 
-整體設定流程可概括為：建立 Provider → 建立 Channel → 取得 Secret 與 Token → 設定 Webhook → 驗證事件 → 接收與回覆訊息。這個流程是所有 LINE Bot 開發的基礎，也是後續業務整合的起點。
+\noindent\fcolorbox{blue!60}{blue!5}{%
+\parbox{0.96\textwidth}{%
+\textbf{整體設定流程總覽：} 建立 Provider → 建立 Channel → 取得 Secret 與 Token → 設定 Webhook → 驗證事件 → 接收與回覆訊息。此流程是所有 LINE Bot 開發的基礎，也是後續業務整合的起點。
+}%
+}

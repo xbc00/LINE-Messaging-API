@@ -18,6 +18,9 @@
 \usepackage{fancyhdr}
 \usepackage{titlesec}
 \usepackage{lastpage}
+\usepackage{tikz}
+\usepackage[titles]{tocloft}
+\usetikzlibrary{positioning,arrows.meta}
 
 \setCJKmainfont[AutoFakeBold=2]{Microsoft JhengHei}
 \setCJKsansfont[AutoFakeBold=2]{Microsoft JhengHei}
@@ -63,8 +66,19 @@
 \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\setlength{\cftbeforechapskip}{4pt}
+\setlength{\cftbeforesecskip}{2pt}
+\setlength{\cftbeforesubsecskip}{2pt}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\renewcommand{\cftsecfont}{\normalfont}
+\renewcommand{\cftsubsecfont}{\normalfont}
+\renewcommand{\cftchapleader}{\cftdotfill{\cftchapdotsep}}
+
 \title{LINE Messaging API\textbackslash{}n註冊申請與應用實作}
-\author{作者姓名}
+\author{412631516 謝秉辰}
 \date{\today}
 
 \titleformat{\chapter}[display]
@@ -85,11 +99,13 @@
 \fancyhf{}
 \fancyhead[L]{LINE Messaging API}
 \fancyhead[R]{\leftmark}
-\fancyfoot[C]{\thepage / \pageref{LastPage}}
+\fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
 
 \begin{document}
+\pagenumbering{arabic}
+\setcounter{page}{1}
 \begin{titlepage}
     \centering
     \vspace*{2cm}
@@ -99,14 +115,16 @@
     \vspace{2cm}
     {\large 技術報告 / 專題文件}\par
     \vspace{2cm}
-    {\large 作者：作者姓名}\par
+    {\large 作者：412631516 謝秉辰}\par
     \vspace{0.5cm}
     {\large 日期：\today}\par
     \vfill
     {\normalsize 依據 LINE Developers 平台與 API 實務流程整理}\par
 \end{titlepage}
 
-\pagenumbering{roman}
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
 \begin{abstract}
 本文件整理 LINE Messaging API 的註冊、設定與實務應用流程，內容涵蓋 LINE Developers 帳號建立、Channel 設定、Channel Secret 及 Access Token 的取得方式、Webhook 設定與測試方法，以及使用 Python 範例程式接收與回覆訊息的實作流程。透過本文件，讀者可快速建立對 LINE Messaging API 的基本理解，並具備在專案中接入 LINE 訊息服務的基礎能力。
 \end{abstract}

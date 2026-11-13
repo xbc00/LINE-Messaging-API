@@ -27,7 +27,26 @@ LINE Messaging API 的設計重點在「訊息互動」與「事件驅動」。�
 
 \begin{figure}[H]
     \centering
-    \fbox{\rule{0pt}{3.2cm}\rule{9cm}{0pt}}
+    \begin{tikzpicture}[
+        node distance=2.0cm and 2.8cm,
+        box/.style={draw, rounded corners, minimum width=2.4cm, minimum height=1.1cm, align=center, fill=blue!5},
+        line/.style={-Latex, thick}
+    ]
+        \node[box] (user) {使用者};
+        \node[box, right=of user] (line) {LINE App};
+        \node[box, right=of line] (webhook) {Webhook};
+        \node[box, below=of webhook] (server) {後端伺服器};
+        \node[box, left=of server] (logic) {業務邏輯};
+        \node[box, below=of line] (token) {Channel Secret\newline Access Token};
+
+        \draw[line] (user) -- (line);
+        \draw[line] (line) -- (webhook);
+        \draw[line] (webhook) -- (server);
+        \draw[line] (server) -- (logic);
+        \draw[line] (logic) -- (server);
+        \draw[line] (server) -- (line);
+        \draw[line] (token) -- (webhook);
+    \end{tikzpicture}
     \caption{LINE Messaging API 通訊流程示意圖}
 \end{figure}
 
