@@ -1,0 +1,96 @@
+\section{LINE 訊息接收與回覆範例}
+
+本節示範一個使用 Python Flask 建立 Webhook 伺服器的簡化範例，當使用者在 LINE 上傳送訊息時，伺服器將接收事件並回覆相同內容。這個例子可作為理解 LINE Messaging API 的進入點，也是一種最常見的初學範例。
+
+\subsection{範例程式：接收 LINE Webhook 並回覆訊息}
+
+\begin{lstlisting}[language=Python, caption={Flask Webhook 範例：接收訊息並回覆}, label={lst:webhook}]
+from flask import Flask, request, jsonify
+import os
+
+app = Flask(__name__)
+
+CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET", "your_channel_secret")
+ACCESS_TOKEN = os.getenv("LINE_ACCESS_TOKEN", "your_access_token")
+
+@app.route("/callback", methods=["POST"])
+def callback():
+    data = request.get_json()
+    events = data.get("events", [])
+
+    for event in events:
+        if event.get("type") == "message" and event["message"]["type"] == "text":
+            user_text = event["message"]["text"]
+            reply_token = event["replyToken"]
+
+            reply_message = {
+                "replyToken": reply_token,
+                "messages": [
+                    {
+                        "type": "text",
+                        "text": f"你剛剛傳了：{user_text}\n我已收到你的訊息。"
+                    }
+                ]
+            }
+
+            print("收到訊息:", user_text)
+
+    return jsonify({"status": "ok"})
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=8000)
+\end{lstlisting}
+
+\subsection{程式說明}
+
+上述範例有幾個關鍵點值得注意：
+\begin{enumerate}[leftmargin=2em]
+    \item 使用 Flask 建立 HTTP API，接收 LINE 的 POST 請求。
+    \item 從 request.get\_json() 取得事件資料。
+    \item 判斷 event 的 type 是否為 message。
+    \item 使用 message["text"] 取得使用者輸入內容。
+    \item 使用 replyToken 回覆使用者訊息。
+\end{enumerate}
+
+這段程式能夠完成最基本的雙向互動：使用者傳訊息，伺服器接收，並回傳相同或延伸資訊。實際專案中，開發者可以再加上關鍵字判斷、資料庫查詢、客服選單與群發通知功能。
+
+\subsection{進一步擴充應用}
+
+除了簡單地回覆文字之外，LINE Messaging API 還支援多種訊息型別，例如：
+\begin{itemize}[leftmargin=2em]
+    \item 文字訊息
+    \item 圖片訊息
+    \item 地圖與位置訊息
+    \item 輪播訊息
+    \item 按鈕模板
+    \item 快速回覆
+\end{itemize}
+
+此外，LINE Bot 還可與資料庫整合，將使用者輸入內容儲存到後端系統，或實作應用程式內的客服自動回覆流程。這使其非常適合用於 CRM、會員服務與自動化問答平台。
+
+\subsection{錯誤排查與測試建議}
+
+在整合 LINE Messaging API 時，常見錯誤來源包括：
+\begin{itemize}[leftmargin=2em]
+    \item Webhook URL 尚未設定或未公開
+    \item Access Token 無效或失效
+    \item 伺服器沒有正確回應 HTTP 200
+    \item JSON 格式不符合預期
+    \item Channel Secret 與實際設定不一致
+\end{itemize}
+
+因此，建議開發者在測試階段搭配 nginx、ngrok 或測試伺服器，確保 LINE 事件透過公開網址送達，並在本機或雲端環境中逐步驗證每一個訊息事件。
+
+\subsection{系統流程總結}
+
+LINE Messaging API 的完整流程可以概括為：
+\begin{enumerate}[leftmargin=2em]
+    \item 建立 LINE Developers Provider 與 Messaging API Channel
+    \item 取得 Channel Secret 與 Access Token
+    \item 設定 Webhook URL
+    \item 伺服器接收使用者事件
+    \item 判斷事件類型與內容
+    \item 回覆訊息或觸發其他流程
+\end{enumerate}
+
+這樣的流程讓 LINE 變成高度可擴充的互動入口，適合多種企業與個人專案使用。

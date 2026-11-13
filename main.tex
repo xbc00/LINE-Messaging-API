@@ -1,33 +1,105 @@
 % !TEX program = xelatex
-\documentclass[a4paper, 12pt]{report}
+\documentclass[a4paper,12pt]{report}
+
+\usepackage[margin=2.5cm]{geometry}
 \usepackage{fontspec}
 \usepackage{xeCJK}
-\setCJKmainfont[AutoFakeBold=2, AutoFakeSlant=0.2]{標楷體}
-\setCJKmonofont[AutoFakeBold=2, AutoFakeSlant=0.2]{SimSun}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{setspace}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+
+\setCJKmainfont[AutoFakeBold=2]{Microsoft JhengHei}
+\setCJKsansfont[AutoFakeBold=2]{Microsoft JhengHei}
+\setCJKmonofont[AutoFakeBold=2]{Microsoft JhengHei}
 \setmainfont{Times New Roman}
+
 \XeTeXlinebreaklocale "zh"
 \XeTeXlinebreakskip = 0pt plus 1pt
 
-\renewcommand\contentsname{目錄}
-\renewcommand\bibname{參考資料}
-\renewcommand\figurename{圖}
-\renewcommand\tablename{表}
-\renewcommand\chaptername{第}
-\renewcommand\thechapter{\arabic{chapter}章}
-\renewcommand\thesection{\arabic{chapter}.\arabic{section}}
-\renewcommand\thesubsection{\thesection.\arabic{subsection}}
-\makeatletter
-\renewcommand*{\l@chapter}[2]{\@dottedtocline{0}{0em}{3em}{#1}{#2}}
-\renewcommand*{\l@section}[2]{\@dottedtocline{1}{1.5em}{3em}{#1}{#2}}
-\renewcommand*{\l@subsection}[2]{\@dottedtocline{2}{3.8em}{4em}{#1}{#2}}
-\makeatother
+\definecolor{codebg}{RGB}{245,247,249}
+\definecolor{lineblue}{RGB}{0,122,204}
 
-\title{從 TeX 到 LaTeX：理解數位排版的起點}
-\author{LaTeX 教學講義}
+\lstset{
+    language=Python,
+    backgroundcolor=\color{codebg},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{purple},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    rulecolor=\color{black},
+    captionpos=b,
+    keepspaces=true,
+    columns=fullflexible,
+    xleftmargin=1em,
+    tabsize=4
+}
+
+\renewcommand{\contentsname}{目錄}
+\renewcommand{\listfigurename}{圖目錄}
+\renewcommand{\listtablename}{表目錄}
+\renewcommand{\figurename}{圖}
+\renewcommand{\tablename}{表}
+\renewcommand{\lstlistingname}{程式}
+\renewcommand{\lstlistlistingname}{程式目錄}
+\renewcommand{\chaptername}{第}
+\renewcommand{\thechapter}{\arabic{chapter}章}
+\renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+
+\title{LINE Messaging API 註冊申請與應用實作}
+\author{作者姓名}
 \date{\today}
 
 \begin{document}
 \maketitle
+
+\begin{abstract}
+本文件整理 LINE Messaging API 的註冊、設定與實務應用流程，內容涵蓋 LINE Developers 帳號建立、Channel 設定、Channel Secret 及 Access Token 的取得方式、Webhook 設定與測試方法，以及使用 Python 範例程式接收與回覆訊息的實作流程。透過本文件，讀者可快速建立對 LINE Messaging API 的基本理解，並具備在專案中接入 LINE 訊息服務的基礎能力。
+\end{abstract}
+
 \tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+
+\chapter{LINE Messaging API 簡介}
 \input{chap1/chap1.tex}
+
+\chapter{LINE Developers 帳號與 Channel 建立}
+\input{chap2/chap2.tex}
+
+\chapter{Channel Secret、Access Token 與 Webhook 設定}
+\input{chap3/chap3.tex}
+
+\chapter{LINE 訊息接收與回覆範例}
+\input{chap4/chap4.tex}
+
+\chapter{本文件 LaTeX 原始碼}
+\section{程式碼清單}
+本章節直接展示本文件的主要原始碼，供讀者檢視整份 LaTeX 文件的結構與設定。
+
+\lstinputlisting[
+    language=TeX,
+    caption={main.tex 原始碼},
+    label={lst:mainSource},
+    breaklines=true,
+    numbers=left
+]{main.tex}
+
 \end{document}

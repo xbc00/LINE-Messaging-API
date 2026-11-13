@@ -1,0 +1,65 @@
+\section{LINE Developers 帳號註冊與 Channel 建立}
+
+想要使用 LINE Messaging API，開發者首先需要準備一個 LINE Developers 帳號。若尚未擁有帳號，需先登入 LINE 官方帳號並進入 LINE Developers 官網。通常，以個人或團隊的官方身分建立帳戶後，即可建立自己的專案。
+
+\subsection{註冊步驟}
+
+登入 LINE Developers 後，進入「Create a provider」或「建立 Provider」頁面。Provider 是一個開發者專案群組，用於管理多個 LINE Bot 或其他 LINE 服務。建立 Provider 後，接著點選「Create a channel」建立新的 Channel。Channel 類型通常可選擇 Messaging API，這是用於發送與接收訊息的主要設定項目。
+
+\begin{enumerate}[leftmargin=2em]
+    \item 登入 LINE Developers 平台。
+    \item 建立 Provider，命名公司或專案名稱。
+    \item 進入 Provider 內部選擇「Create a channel」。
+    \item 選擇「Messaging API」Channel 類型。
+    \item 填寫 Channel 名稱、描述與相關資訊。
+    \item 完成設定後，建立成功並取得 Channel ID。
+\end{enumerate}
+
+\subsection{Channel 設定說明}
+
+當 Channel 建立成功後，開發者進入 Channel 設定頁面，這裡會看到關鍵資訊，例如：
+\begin{itemize}[leftmargin=2em]
+    \item Channel Secret
+    \item Access Token
+    \item Webhook URL
+    \item 允許的回覆與推播設定
+    \item 監控與錯誤資訊頁面
+\end{itemize}
+
+這些設定決定了訊息能否被伺服器正確接收與回覆。舉例來說，若 Webhook URL 未正確設定，當使用者傳送訊息時，系統不會有任何事件回應。若 Access Token 未正確配置，則伺服器也無法成功發送訊息。
+
+\subsection{Line Bot 的建立概念}
+
+LINE Bot 是一個透過 LINE Messaging API 運作的智慧型聊天功能，通常由後端服務來負責處理邏輯。商業團隊可以在自己的系統內部管理資料，並將 LINE 作為人機介面。藉由這種方式，開發者可以用最小的前端成本，建立一個具備對話能力的服務入口。
+
+在正式上線前，開發者通常會先使用測試帳號或用戶端進行功能驗證，再將設定同步到正式環境。這樣可以降低錯誤率，並讓機器人更容易在正式動線中穩定運作。
+
+\subsection{Channel 相關注意事項}
+
+建立 Channel 時需要注意幾個實務層面：
+\begin{itemize}[leftmargin=2em]
+    \item 不要把 Channel Secret 或 Access Token 直接寫死在前端 HTML 中。
+    \item 若使用 Git 進行版本控，請將設定檔加入 .gitignore。
+    \item 若測試環境與正式環境分離，最好使用不同的 Channel 或各自的環境變數。
+    \item 在正式上線前，務必確認 Webhook 網域可被公開存取。
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{LINE Developers 建立 Channel 的主要步驟}
+    \begin{tabular}{|p{4cm}|p{8cm}|}
+        \hline
+        \textbf{步驟} & \textbf{說明} \\
+        \hline
+        建立 Provider & 管理多個 Channel 與專案資源。 \\
+        \hline
+        建立 Channel & 選擇 Messaging API 類型並命名專案。 \\
+        \hline
+        設定 Webhook & 提供公開 URL 讓 LINE 可回傳事件資訊。 \\
+        \hline
+        產生 Token & 取得 Access Token 以便後端發送訊息。 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+在專案完成後，LINE Bot 可以用於推播通知、客服自動回覆、預約提醒甚至會員互動等多種功能。這些特性使 LINE Messaging API 成為企業與開發者最常用的互動通道之一。

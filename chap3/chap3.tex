@@ -1,0 +1,64 @@
+\section{Channel Secret、Access Token 與 Webhook 設定}
+
+LINE Messaging API 的安全與權限是整個串接流程中的核心。若沒有正確設定 Channel Secret 與 Access Token，即使已建立 Channel，也無法安全地接收與回應使用者訊息。這章節整理這些關鍵設定與實務注意事項。
+
+\subsection{Channel Secret}
+
+Channel Secret 是 LINE 平台提供給開發者的機密資訊，用於識別 Channel 身分。它通常在 LINE Developers 後台顯示，可在 Channel 基本設定中查看。這個值應該被視為高度敏感的憑證，應妥善保存，不要以明碼方式直接寫入應用程式碼。
+
+Channel Secret 常見於兩種情境：
+\begin{enumerate}[leftmargin=2em]
+    \item Webhook 驗證與請求來源確認。
+    \item 需要驗證該請求是否來自正確的 LINE Channel。
+\end{enumerate}
+
+\subsection{Access Token}
+
+Access Token 是讓伺服器能發送訊息或呼叫 API 的權限憑證。通常分為「一般權限 Token」與「長期 Token」。對新手而言，先理解它的作用最重要：它代表「伺服器具備對該 Channel 的操作權限」。
+
+使用 Access Token 的常見操作包括：
+\begin{itemize}[leftmargin=2em]
+    \item 傳送文字訊息
+    \item 回覆使用者訊息
+    \item 發送多媒體訊息
+    \item 推播通知給特定使用者或群組
+\end{itemize}
+
+如果 Access Token 過期或被重置，原本的程式可能無法再發送訊息，因此系統設計時最好透過環境變數分開管理，並處理例外情況。
+
+\subsection{Webhook 設定}
+
+Webhook 是 LINE 事件通知入口。當使用者傳送訊息、點擊按鈕或發生特定事件時，LINE 伺服器會 POST 請求到預先設定的 Webhook URL。開發者可以在伺服器中接收這些請求，分析事件內容，進而回覆訊息。
+
+Webhook 的常見架構如下：
+\begin{itemize}[leftmargin=2em]
+    \item 伺服器公開 URL，例如 https://example.com/callback
+    \item 使用 HTTPS 讓 LINE 可安全訪問
+    \item 驗證簽名，確保事件資料真的來自 LINE
+    \item 解析 JSON，提取 replyToken、訊息內容或使用者資訊
+\end{itemize}
+
+若使用本機開發環境，例如測試伺服器，通常需要透過 ngrok 把本地端口轉發到外網，以讓 LINE 可以訪問。ngrok 的使用方式簡單，開發者只需執行 ngrok http 8000，便可取得一個公開 URL。
+
+\subsection{使用 ngrok 的常見作法}
+
+在開發階段，開發者不一定能直接將應用程式部署到正式伺服器，因此會使用 ngrok 來產生測試入口。這有助於快速驗證 Webhook 是否可用，並確保事件回發正常。這樣的做法在機器人開發中相當常見，因為它能把本地端點對外暴露，讓 LINE 服務可直接訪問。
+
+\subsection{安全實務}
+
+LINE API 的安全設定不只是把設定填好而已，還需要遵守一套良好的開發實務：
+\begin{enumerate}[leftmargin=2em]
+    \item 公開 Webhook 前，先使用測試帳號驗證。
+    \item 使用 HTTPS，不要使用無保護的 HTTP。
+    \item 不要洩漏 Channel Secret 或 Access Token。
+    \item 驗證訊息來源與數據完整性。
+    \item 啟用日誌紀錄，方便排查錯誤。
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \fbox{\rule{0pt}{2.5cm}\rule{12cm}{0pt}}
+    \caption{LINE Messaging API 設定流程總覽}
+\end{figure}
+
+整體設定流程可概括為：建立 Provider → 建立 Channel → 取得 Secret 與 Token → 設定 Webhook → 驗證事件 → 接收與回覆訊息。這個流程是所有 LINE Bot 開發的基礎，也是後續業務整合的起點。
