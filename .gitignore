@@ -1,0 +1,52 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.glg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.lot
+*.log
+*.out
+*.pdfsync
+*.synctex.gz
+*.thm
+*.toc
+*.xdv
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.ps
+*.dvi
+*.bak
+*.tmp
+*.swp
+*~
+
+# VS Code / editor files
+.vscode/
+*.code-workspace
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# TeX Live / auxiliary directories (if used)
+*.fmt
+*.fdb_latexmk
+
+# If you keep generated PDFs locally and don't want to commit them
+# *.pdf
+
+# Optional: local build output directory
+_build/
+out/
+build/
